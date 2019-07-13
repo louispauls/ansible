@@ -4,6 +4,9 @@
   vars_files:
   - var_file.yml
   tasks:
+#
+#Create 4 Aggregates
+#
   - name: Create Aggrs
     na_ontap_aggregate:
       state: "{{ state }}"
@@ -21,6 +24,9 @@
       - { name: "n1_aggr2", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
       - { name: "n2_aggr2", node: "cluster1-02" }
+#
+#Create a SVM
+#
   - name: Create SVM
     na_ontap_svm:
       state: "{{ state }}"
@@ -28,6 +34,29 @@
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
       root_volume_security_style: unix
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Create an Interface
+#
+  - name: Create interface
+    na_ontap_interface:
+      state: "{{ state }}"
+      interface_name: "{{ vserver }}_mgmt_data_1"
+      home_port: e0d
+      home_node: cluster1-01
+      role: data
+      protocols: nfs
+      admin_status: up
+      failover_policy: local-only
+      firewall_policy: mgmt
+      is_auto_revert: true
+      address: "{{ address }}"
+      netmask: 255.255.255.0
+      vserver: "{{ vserver }}"
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
