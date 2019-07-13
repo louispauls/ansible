@@ -7,7 +7,7 @@
 #
 #Create 4 Aggregates
 #
-  - name: Create Aggrs
+  - name: Task 1 - Create Aggregates
     na_ontap_aggregate:
       state: "{{ state }}"
       name: "{{ item.name }}"
@@ -27,7 +27,7 @@
 #
 #Create a SVM
 #
-  - name: Create SVM
+  - name: Task 2 - Create a SVM
     na_ontap_svm:
       state: "{{ state }}"
       name: "{{ vserver }}"
@@ -42,7 +42,7 @@
 #
 #Create an Interface
 #
-  - name: Create interface
+  - name: Task 3 - Create an Interface
     na_ontap_interface:
       state: "{{ state }}"
       interface_name: "{{ vserver }}_mgmt_data_1"
@@ -56,6 +56,91 @@
       is_auto_revert: true
       address: "{{ address }}"
       netmask: 255.255.255.0
+      vserver: "{{ vserver }}"
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Change NFS Status
+#
+  - name: Task 4 - Change NFS Status
+    na_ontap_nfs:
+      state: "{{ state }}"
+      service_state: started
+      vserver: "{{ vserver }}"
+      nfsv3: enabled
+      nfsv4: disabled
+      nfsv41: disabled
+      tcp: enabled
+      udp: enabled
+      vstorage_state: disabled
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Setup Default Rules
+#
+  - name: Task 5 - Setup Default Rules
+    na_ontap_export_policy_rule:
+      state: "{{ state }}"
+      policy_name: default
+      vserver: "{{ vserver }}"
+      client_match: 0.0.0.0/0
+      ro_rule: any
+      rw_rule: none
+      super_user_security: none
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Create Policy
+#
+  - name: Task 6 - Create Policy
+    na_ontap_export_policy:
+      state: "{{ state }}"
+      name: "{{ policy }}"
+      vserver: "{{ vserver }}"
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Setup Rules
+#
+  - name: Task 7 - Setup Export Policy Rules
+    na_ontap_export_policy_rule:
+      state: "{{ state }}"
+      policy_name: "{{ policy }}"
+      vserver: "{{ vserver }}"
+      client_match: "{{ client }}"
+      ro_rule: sys
+      rw_rule: sys
+      super_user_security: sys
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false
+#
+#Create Volume
+#
+  - name: Task 8 - Create Volume
+    na_ontap_volume:
+      state: "{{ state }}"
+      name: "{{ volname }}"
+      aggregate_name: "{{ aggr }}"
+      size: 1
+      size_unit: gb
+      policy: "{{ policy }}"
+      junction_path: "/{{ volname }}"
+      space_guarantee: "none"
       vserver: "{{ vserver }}"
       hostname: "{{ hostname }}"
       username: "{{ username }}"
