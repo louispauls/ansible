@@ -2,7 +2,7 @@
 - hosts: localhost
   name: Setup ONTAP
   vars_files:
-  - var_file.yml
+  - variables.yml
   tasks:
 #
 #Create 4 Aggregates

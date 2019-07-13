@@ -1,14 +1,12 @@
 rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install ansible
-ansible --version
 
 pip install --upgrade pip
 pip install netapp-lib
 
-wget https://raw.githubusercontent.com/louispauls/ansible/master/create_aggregates.yml
+wget https://raw.githubusercontent.com/louispauls/ansible/master/config.yml
+wget https://raw.githubusercontent.com/louispauls/ansible/master/variables.yml
 
-verify that no data aggregates exists
-	aggr show
-	disk show
+log into cluster01 and verify that the cluster is empty
 	
-ansible-playbook create_aggregates.yml
+ansible-playbook config.yml
