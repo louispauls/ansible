@@ -21,3 +21,15 @@
       - { name: "n1_aggr2", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
       - { name: "n2_aggr2", node: "cluster1-02" }
+  - name: Create SVM
+    na_ontap_svm:
+      state: "{{ state }}"
+      name: "{{ vserver }}"
+      root_volume: "{{ vserver}}_root"
+      root_volume_aggregate: "{{ aggr }}"
+      root_volume_security_style: unix
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      https: true
+      validate_certs: false      
