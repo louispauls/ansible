@@ -7,7 +7,7 @@
 #
 #Create 4 Aggregates
 #
-  - name: Task 1 - Create Aggregates
+  - name: Task 1 - Create Aggregates (na_ontap_aggregate)
     na_ontap_aggregate:
       state: "{{ state }}"
       name: "{{ item.name }}"
@@ -27,7 +27,7 @@
 #
 #Create a SVM
 #
-  - name: Task 2 - Create a SVM
+  - name: Task 2 - Create a SVM (na_ontap_svm)
     na_ontap_svm:
       state: "{{ state }}"
       name: "{{ vserver }}"
@@ -42,7 +42,7 @@
 #
 #Create an Interface
 #
-  - name: Task 3 - Create an Interface
+  - name: Task 3 - Create an Interface (na_ontap_interface)
     na_ontap_interface:
       state: "{{ state }}"
       interface_name: "{{ vserver }}_mgmt_data_1"
@@ -63,9 +63,9 @@
       https: true
       validate_certs: false
 #
-#Change NFS Status
+#Configure NFS
 #
-  - name: Task 4 - Change NFS Status
+  - name: Task 4 - Configure NFS (na_ontap_nfs)
     na_ontap_nfs:
       state: "{{ state }}"
       service_state: started
@@ -84,7 +84,7 @@
 #
 #Setup Default Rules
 #
-  - name: Task 5 - Setup Default Rules
+  - name: Task 5 - Create default Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
       policy_name: default
@@ -101,7 +101,7 @@
 #
 #Create Policy
 #
-  - name: Task 6 - Create Policy
+  - name: Task 6 - Create Export Policy (na_ontap_export_policy)
     na_ontap_export_policy:
       state: "{{ state }}"
       name: "{{ policy }}"
@@ -114,7 +114,7 @@
 #
 #Setup Rules
 #
-  - name: Task 7 - Setup Export Policy Rules
+  - name: Task 7 - Create Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
       policy_name: "{{ policy }}"
@@ -131,7 +131,7 @@
 #
 #Create Volume
 #
-  - name: Task 8 - Create Volume
+  - name: Task 8 - Create Volume (na_ontap_volume)
     na_ontap_volume:
       state: "{{ state }}"
       name: "{{ volname }}"
