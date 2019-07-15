@@ -33,7 +33,7 @@
       name: "{{ vserver }}"
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
-      root_volume_security_style: nfs
+      root_volume_security_style: unix
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
