@@ -1,19 +1,19 @@
 ---
 - hosts: localhost
-  name: Setup ONTAP
+  name: Starting the Play - Configure ONTAP
   vars_files:
   - variables.yml
   tasks:
 #
-#Create 4 Aggregates
+#Create Aggregates
 #
-  - name: Task 1 - Create Aggregates (na_ontap_aggregate)
+  - name: Create Aggregates (na_ontap_aggregate)
     na_ontap_aggregate:
       state: "{{ state }}"
       name: "{{ item.name }}"
       nodes: "{{ item.node }}"
-      disk_count: 7
-      raid_size: 7
+      disk_count: 13
+      raid_size: 13
       https: true
       validate_certs: false
       hostname: "{{ hostname }}"
@@ -21,13 +21,13 @@
       password: "{{ password }}"
     with_items:
       - { name: "n1_aggr1", node: "cluster1-01" }
-      - { name: "n1_aggr2", node: "cluster1-01" }
+#      - { name: "n1_aggr2", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
-      - { name: "n2_aggr2", node: "cluster1-02" }
+#      - { name: "n2_aggr2", node: "cluster1-02" }
 #
 #Create a SVM
 #
-  - name: Task 2 - Create a SVM (na_ontap_svm)
+  - name: Create a SVM (na_ontap_svm)
     na_ontap_svm:
       state: "{{ state }}"
       name: "{{ vserver }}"
@@ -42,7 +42,7 @@
 #
 #Create an Interface
 #
-  - name: Task 3 - Create an Interface (na_ontap_interface)
+  - name: Create an Interface (na_ontap_interface)
     na_ontap_interface:
       state: "{{ state }}"
       interface_name: "{{ vserver }}_mgmt_data_1"
@@ -50,11 +50,7 @@
       home_node: cluster1-01
       role: data
       protocols: nfs
-      admin_status: up
-      failover_policy: local-only
-      firewall_policy: mgmt
-      is_auto_revert: true
-      address: "{{ address }}"
+      address: "{{ data_lif }}"
       netmask: 255.255.255.0
       vserver: "{{ vserver }}"
       hostname: "{{ hostname }}"
@@ -65,7 +61,7 @@
 #
 #Configure NFS
 #
-  - name: Task 4 - Configure NFS (na_ontap_nfs)
+  - name: Configure NFS (na_ontap_nfs)
     na_ontap_nfs:
       state: "{{ state }}"
       service_state: started
@@ -84,7 +80,7 @@
 #
 #Setup Default Rules
 #
-  - name: Task 5 - Create default Export Policy Rule (na_ontap_export_policy_rule)
+  - name: Create default Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
       policy_name: default
@@ -101,7 +97,7 @@
 #
 #Create Policy
 #
-  - name: Task 6 - Create Export Policy (na_ontap_export_policy)
+  - name: Create Export Policy (na_ontap_export_policy)
     na_ontap_export_policy:
       state: "{{ state }}"
       name: "{{ policy }}"
@@ -114,15 +110,15 @@
 #
 #Setup Rules
 #
-  - name: Task 7 - Create Export Policy Rule (na_ontap_export_policy_rule)
+  - name: Create Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
       policy_name: "{{ policy }}"
       vserver: "{{ vserver }}"
       client_match: "{{ client }}"
-      ro_rule: sys
-      rw_rule: sys
-      super_user_security: sys
+      ro_rule: any
+      rw_rule: any
+      super_user_security: any
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -131,7 +127,7 @@
 #
 #Create Volume
 #
-  - name: Task 8 - Create Volume (na_ontap_volume)
+  - name: Create Volume (na_ontap_volume)
     na_ontap_volume:
       state: "{{ state }}"
       name: "{{ volname }}"
@@ -145,21 +141,22 @@
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
+      volume_security_style: unix
       https: true
       validate_certs: false
 #
-#Mount NFS export to rhel1
+#Mount NFS export to hosts in /etc/ansible/hosts
 #
 - hosts: all
-  name: Mount
+  name: Starting the Play - Mount the nfs export
   vars_files:
-  - var_file.yml
+  - variables.yml
   tasks:
-  - name: nfs install
+  - name: Install nfs on all systems in /etc/ansible/hosts
     package:
       name: nfs-utils
       state: present
-  - name: Mount nfs export
+  - name: Mount nfs export on all systems in /etc/ansible/hosts
     mount:
       state: mounted
       path: /mnt/tmp
