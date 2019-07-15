@@ -3,7 +3,6 @@ username: "admin"
 volname: ansibleVolume
 vserver: ansibleSVM
 policy: ansiblePolicy
-address: 192.168.0.145
 aggr: n1_aggr1
 client: 0.0.0.0/0
 data_lif: 192.168.0.145
