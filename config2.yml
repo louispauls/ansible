@@ -145,6 +145,7 @@
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
+      volume_security_style: ntfs
       https: true
       validate_certs: false
 #
