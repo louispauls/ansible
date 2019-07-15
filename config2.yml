@@ -33,7 +33,7 @@
       name: "{{ vserver }}"
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
-      root_volume_security_style: unix
+      root_volume_security_style: ntfs
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -120,9 +120,9 @@
       policy_name: "{{ policy }}"
       vserver: "{{ vserver }}"
       client_match: "{{ client }}"
-      ro_rule: sys
-      rw_rule: sys
-      super_user_security: sys
+      ro_rule: any
+      rw_rule: any
+      super_user_security: any
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
