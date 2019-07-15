@@ -40,29 +40,6 @@
       https: true
       validate_certs: false
 #
-#Create an Interface (ORIGINAL)
-#
-#  - name: Create an Interface (na_ontap_interface)
-#    na_ontap_interface:
-#      state: "{{ state }}"
-#      interface_name: "{{ vserver }}_mgmt_data_1"
-#      home_port: e0d
-#      home_node: cluster1-01
-#      role: data
-#      protocols: nfs
-#      admin_status: up
-#      failover_policy: system_defined
-#      firewall_policy: mgmt
-#      is_auto_revert: true
-#      address: "{{ data_lif }}"
-#      netmask: 255.255.255.0
-#      vserver: "{{ vserver }}"
-#      hostname: "{{ hostname }}"
-#      username: "{{ username }}"
-#      password: "{{ password }}"
-#      https: true
-#      validate_certs: false
-#
 #Create an Interface
 #
   - name: Create an Interface (na_ontap_interface)
@@ -73,10 +50,6 @@
       home_node: cluster1-01
       role: data
       protocols: nfs
-#      admin_status: up
-#      failover_policy: system_defined
-#      firewall_policy: mgmt
-#      is_auto_revert: true
       address: "{{ data_lif }}"
       netmask: 255.255.255.0
       vserver: "{{ vserver }}"
