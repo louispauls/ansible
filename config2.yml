@@ -5,15 +5,15 @@
   - variables.yml
   tasks:
 #
-#Create 4 Aggregates
+#Create Aggregates
 #
   - name: Create Aggregates (na_ontap_aggregate)
     na_ontap_aggregate:
       state: "{{ state }}"
       name: "{{ item.name }}"
       nodes: "{{ item.node }}"
-      disk_count: 7
-      raid_size: 7
+      disk_count: 13
+      raid_size: 13
       https: true
       validate_certs: false
       hostname: "{{ hostname }}"
@@ -21,9 +21,9 @@
       password: "{{ password }}"
     with_items:
       - { name: "n1_aggr1", node: "cluster1-01" }
-      - { name: "n1_aggr2", node: "cluster1-01" }
+#      - { name: "n1_aggr2", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
-      - { name: "n2_aggr2", node: "cluster1-02" }
+#      - { name: "n2_aggr2", node: "cluster1-02" }
 #
 #Create a SVM
 #
@@ -33,7 +33,7 @@
       name: "{{ vserver }}"
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
-      root_volume_security_style: ntfs
+      root_volume_security_style: nfs
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -54,7 +54,7 @@
       failover_policy: local-only
       firewall_policy: mgmt
       is_auto_revert: true
-      address: "{{ address }}"
+      address: "{{ data_lif }}"
       netmask: 255.255.255.0
       vserver: "{{ vserver }}"
       hostname: "{{ hostname }}"
@@ -145,11 +145,11 @@
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
-      volume_security_style: ntfs
+      volume_security_style: nfs
       https: true
       validate_certs: false
 #
-#Mount NFS export to rhel1
+#Mount NFS export to hosts in /etc/ansible/hosts
 #
 - hosts: all
   name: Starting the Play - Mount the nfs export
