@@ -1,12 +1,13 @@
 ---
+
+##[PLAY] Configure ONTAP Cluster
 - hosts: localhost
-  name: Starting the Play - Configure ONTAP
+  name: Play [Configure ONTAP Cluster]
   vars_files:
   - variables.yml
   tasks:
-#
-#Create Aggregates
-#
+
+#   Create Aggregates
   - name: Create Aggregates (na_ontap_aggregate)
     na_ontap_aggregate:
       state: "{{ state }}"
@@ -21,12 +22,9 @@
       password: "{{ password }}"
     with_items:
       - { name: "n1_aggr1", node: "cluster1-01" }
-#      - { name: "n1_aggr2", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
-#      - { name: "n2_aggr2", node: "cluster1-02" }
-#
-#Create a SVM
-#
+
+#   Create a SVM
   - name: Create a SVM (na_ontap_svm)
     na_ontap_svm:
       state: "{{ state }}"
@@ -39,9 +37,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Create an Interface
-#
+
+#   Create an Interface
   - name: Create an Interface (na_ontap_interface)
     na_ontap_interface:
       state: "{{ state }}"
@@ -58,9 +55,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Configure NFS
-#
+
+#   Configure NFS
   - name: Configure NFS (na_ontap_nfs)
     na_ontap_nfs:
       state: "{{ state }}"
@@ -77,9 +73,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Setup Default Rules
-#
+
+#   Setup Default Rules
   - name: Create default Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
@@ -94,9 +89,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Create Policy
-#
+
+#   Create Policy
   - name: Create Export Policy (na_ontap_export_policy)
     na_ontap_export_policy:
       state: "{{ state }}"
@@ -107,9 +101,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Setup Rules
-#
+
+#   Setup Rules
   - name: Create Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
       state: "{{ state }}"
@@ -124,9 +117,8 @@
       password: "{{ password }}"
       https: true
       validate_certs: false
-#
-#Create Volume
-#
+
+#   Create Volume
   - name: Create Volume (na_ontap_volume)
     na_ontap_volume:
       state: "{{ state }}"
@@ -144,18 +136,21 @@
       volume_security_style: unix
       https: true
       validate_certs: false
-#
-#Mount NFS export to hosts in /etc/ansible/hosts
-#
+
+##[PLAY] Mount NFS export to hosts in /etc/ansible/hosts
 - hosts: all
-  name: Starting the Play - Mount the nfs export
+  name: Play [Configure nfs on Linux Instances and Mount the nfs export]
   vars_files:
   - variables.yml
   tasks:
+
+#   Install NFS on Linux Instances
   - name: Install nfs on all systems in /etc/ansible/hosts
     package:
       name: nfs-utils
       state: present
+
+#   Mount ONTAP NFS export on all Linux Instances
   - name: Mount nfs export on all systems in /etc/ansible/hosts
     mount:
       state: mounted
