@@ -51,7 +51,7 @@
       role: data
       protocols: nfs
       admin_status: up
-      failover_policy: local-only
+      failover_policy: system_defined
       firewall_policy: mgmt
       is_auto_revert: true
       address: "{{ data_lif }}"
@@ -145,7 +145,7 @@
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
-      volume_security_style: nfs
+      volume_security_style: unix
       https: true
       validate_certs: false
 #
