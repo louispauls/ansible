@@ -15,7 +15,7 @@ vi /etc/ansible/hosts and add rhel1 and rhel2
 
 ansible all -a "docker --version"
 ansible all -a "docker image ls"
-ansible all -a "docekr image pull ubuntu"
+ansible all -a "docker image pull ubuntu"
 
 ansible-playbook config.yml
 
