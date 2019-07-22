@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  name: Setup ONTAP
+  gather_facts: no
+  vars:
+    hostname: "172.32.0.182"
+    username: "admin"
+    state: present
+  vars_prompt:
+  - name: "password"
+    prompt: "Password:"
+  tasks:
+  - name: Add licenses
+    na_ontap_license:
+      state: present
+      hostname: "{{ hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      #serial_number: #################
+      https: true
+      validate_certs: false
+      license_codes: CODE1,CODE2
