@@ -1,10 +1,10 @@
-hostname: "192.168.0.101"
+hostname: "192.168.1.142"
 username: "admin"
 volname: ansibleVolume
 vserver: ansibleSVM
 policy: ansiblePolicy
 aggr: n1_aggr1
 client: 0.0.0.0/0
-data_lif: 192.168.0.145
+data_lif: 192.168.1.145
 state: present
-password: Netapp1!
+password: sys@dm!n
