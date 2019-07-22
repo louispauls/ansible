@@ -24,4 +24,4 @@ OPTIONAL:
 rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 pip install --upgrade pip
 
-https://hvops.com/articles/ansible-post-install
+https://hvops.com/articles/ansible-post-install/
