@@ -7,4 +7,4 @@ aggr: n1_aggr1
 client: 0.0.0.0/0
 data_lif: 192.168.1.145
 state: present
-password: sys@dm!n
+password: Netapp1!
