@@ -10,7 +10,7 @@
 #   Create Aggregates
   - name: Create Aggregates (na_ontap_aggregate)
     na_ontap_aggregate:
-      state: "{{ state }}"
+      state: present
       name: "{{ item.name }}"
       nodes: "{{ item.node }}"
       disk_count: 13
@@ -27,7 +27,7 @@
 #   Create a SVM
   - name: Create a SVM (na_ontap_svm)
     na_ontap_svm:
-      state: "{{ state }}"
+      state: present
       name: "{{ vserver }}"
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
@@ -41,7 +41,7 @@
 #   Create an Interface
   - name: Create an Interface (na_ontap_interface)
     na_ontap_interface:
-      state: "{{ state }}"
+      state: present
       interface_name: "{{ vserver }}_mgmt_data_1"
       home_port: e0d
       home_node: cluster1-01
@@ -59,7 +59,7 @@
 #   Configure NFS
   - name: Configure NFS (na_ontap_nfs)
     na_ontap_nfs:
-      state: "{{ state }}"
+      state: present
       service_state: started
       vserver: "{{ vserver }}"
       nfsv3: enabled
@@ -77,7 +77,7 @@
 #   Setup Default Rules
   - name: Create default Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
-      state: "{{ state }}"
+      state: present
       policy_name: default
       vserver: "{{ vserver }}"
       client_match: 0.0.0.0/0
@@ -93,7 +93,7 @@
 #   Create Policy
   - name: Create Export Policy (na_ontap_export_policy)
     na_ontap_export_policy:
-      state: "{{ state }}"
+      state: present
       name: "{{ policy }}"
       vserver: "{{ vserver }}"
       hostname: "{{ hostname }}"
@@ -105,7 +105,7 @@
 #   Setup Rules
   - name: Create Export Policy Rule (na_ontap_export_policy_rule)
     na_ontap_export_policy_rule:
-      state: "{{ state }}"
+      state: present
       policy_name: "{{ policy }}"
       vserver: "{{ vserver }}"
       client_match: "{{ client }}"
@@ -121,7 +121,7 @@
 #   Create Volume
   - name: Create Volume (na_ontap_volume)
     na_ontap_volume:
-      state: "{{ state }}"
+      state: present
       name: "{{ volname }}"
       aggregate_name: "{{ aggr }}"
       size: 1
