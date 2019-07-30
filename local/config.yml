@@ -138,7 +138,7 @@
       validate_certs: false
 
 ##[PLAY] Mount NFS export to hosts in /etc/ansible/hosts
-- hosts: all
+- hosts: prod
   name: Play [Configure nfs on Linux Instances and Mount the nfs export]
   vars_files:
   - variables.yml
