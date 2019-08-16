@@ -1,7 +1,7 @@
 log into rhel1 as root
 mkdir ansible
 cd ansible
-wget https://raw.githubusercontent.com/louispauls/ansible/master/lod/Readme.txt
+wget https://raw.githubusercontent.com/louispauls/ansible/master/lod/ReadMe.txt
 
 yum -y install ansible
 pip install netapp-lib
