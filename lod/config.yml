@@ -32,6 +32,7 @@
       root_volume: "{{ vserver}}_root"
       root_volume_aggregate: "{{ aggr }}"
       root_volume_security_style: unix
+      aggr_list: n1_aggr1,n2_aggr1
       hostname: "{{ hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
