@@ -10,7 +10,7 @@
   "defaults": {
     "size": "10G",
     "spaceReserve": "none",
-    "exportPolicy": "DataPolicy",
+    "exportPolicy": "TridentPolicy",
     "snapshotReserve": "0",
     "snapshotDir": "true"
   }
