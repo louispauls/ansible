@@ -1,0 +1,54 @@
+﻿---
+##[PLAY] Configure ONTAP Cluster
+- hosts: localhost
+  gather_facts: no
+  vars_prompt:
+    - name: admin_user_name
+      prompt: Domain admin username (for CIFS configuration)
+    - name: admin_password
+      prompt: domain admin password (for CIFS configuration)
+  vars:
+    input: &input
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username }}"
+      password: "{{ netapp_password }}"
+    file: _globals.yml
+  vars_files:
+  - "{{ file }}"
+
+  tasks:
+  # Gather facts about the ONTAP cluster
+  - name: Get ONTAP version
+    na_ontap_gather_facts:
+      state: info
+      <<: *input
+      https: true
+      validate_certs: false
+      ontapi: 32
+
+  # Configure Cluster
+  - import_role:
+      name: na_ontap_cluster_config
+    vars:
+      <<: *input
+
+  # Configure SVMs
+  - import_role:
+      name: na_ontap_vserver_create
+    vars:
+      <<: *input
+    when: vservers != None
+
+  # Configure NAS volumes
+  - import_role:
+      name: na_ontap_nas_create
+    vars:
+      <<: *input
+    when: nas != None
+
+  # Configure SAN volumes and LUNs
+  - import_role:
+      name: na_ontap_san_create
+    vars:
+      <<: *input
+    when: luns != None
