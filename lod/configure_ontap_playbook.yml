@@ -142,7 +142,7 @@
 - hosts: prod
   name: Play [Configure nfs on Linux Instances and Mount the nfs export]
   vars_files:
-  - variables.yml
+  - _variables.yml
   tasks:
 
 #   Install NFS on Linux Instances
