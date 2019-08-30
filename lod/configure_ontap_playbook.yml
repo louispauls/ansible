@@ -4,7 +4,7 @@
 - hosts: localhost
   name: Play [Configure ONTAP Cluster]
   vars_files:
-  - _variables.yml
+  - _var_playbook.yml
   tasks:
 
 #   Create Aggregates
@@ -160,7 +160,7 @@
 - hosts: prod
   name: Play [Configure nfs on Linux Instances and Mount the nfs export]
   vars_files:
-  - _variables.yml
+  - _var_playbook.yml
   tasks:
 
 #   Install NFS on Linux Instances
