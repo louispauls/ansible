@@ -12,7 +12,7 @@
       hostname: "{{ netapp_hostname }}"
       username: "{{ netapp_username }}"
       password: "{{ netapp_password }}"
-    file: _globals.yml
+    file: _var_roles.yml
   vars_files:
   - "{{ file }}"
 
@@ -57,7 +57,7 @@
 - hosts: prod
   name: Play [Configure nfs on Linux Instances and Mount the nfs export]
   vars_files:
-  - _variables.yml
+  - _var_playbook.yml
   tasks:
 
 #   Install NFS on Linux Instances
