@@ -10,7 +10,7 @@ disks:
   - cluster1-01
   - cluster1-02
 
-motd: "This cluster was configured using Ansible"
+#motd: "This cluster was configured using Ansible"
 
 dns:
   - { dns_domains: demo.netapp.com, dns_nameservers: 192.168.0.253 }
