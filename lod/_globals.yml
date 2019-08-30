@@ -50,7 +50,6 @@ cifs:
 
 nas:
   - { name: CifsDataVolume, protocol: cifs, vserver: SVM_CIFS, share: smbdata      , aggr: n1_aggr1, size: 10 }
-  - { name: NfsDataVolume , protocol: nfs , vserver: SVM_NFS , share: NfsDataVolume, aggr: n1_aggr1, size: 10 }
 
 igroups:
   - { name: rhel1_igroup, vserver: SVM_SAN, group_type: iscsi, ostype: linux, initiator: "iqn.1994-05.com.redhat:rhel1.demo.netapp.com" }
