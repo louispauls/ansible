@@ -52,3 +52,24 @@
     vars:
       <<: *input
     when: luns != None
+
+##[PLAY] Mount NFS export to hosts in /etc/ansible/hosts
+- hosts: prod
+  name: Play [Configure nfs on Linux Instances and Mount the nfs export]
+  vars_files:
+  - _variables.yml
+  tasks:
+
+#   Install NFS on Linux Instances
+  - name: Install nfs on all systems in /etc/ansible/hosts
+    package:
+      name: nfs-utils
+      state: present
+
+#   Mount ONTAP NFS export on all Linux Instances
+  - name: Mount nfs export on all systems in /etc/ansible/hosts
+    mount:
+      state: mounted
+      path: /mnt/tmp
+      src: "{{ data_lif2 }}:/{{ volname}}"
+      fstype: nfs
