@@ -1,4 +1,5 @@
 ﻿---
+
 ##[PLAY] Configure ONTAP Cluster
 - hosts: localhost
   gather_facts: no
@@ -17,7 +18,8 @@
   - "{{ file }}"
 
   tasks:
-  # Gather facts about the ONTAP cluster
+
+#   Gather facts about the ONTAP cluster
   - name: Get ONTAP version
     na_ontap_gather_facts:
       state: info
@@ -26,27 +28,27 @@
       validate_certs: false
       ontapi: 32
 
-  # Configure Cluster
+#   Configure Cluster
   - import_role:
       name: na_ontap_cluster_config
     vars:
       <<: *input
 
-  # Configure SVMs
+#   Create SVMs
   - import_role:
       name: na_ontap_vserver_create
     vars:
       <<: *input
     when: vservers != None
 
-  # Configure NAS volumes
+#   Create NAS volumes
   - import_role:
       name: na_ontap_nas_create
     vars:
       <<: *input
     when: nas != None
 
-  # Configure SAN volumes and LUNs
+#   Create SAN volumes and LUNs
   - import_role:
       name: na_ontap_san_create
     vars:
@@ -73,3 +75,4 @@
       path: /mnt/tmp
       src: "{{ data_lif2 }}:/{{ volname}}"
       fstype: nfs
+      
