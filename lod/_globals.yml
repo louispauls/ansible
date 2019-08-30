@@ -38,8 +38,8 @@ vserver_dns:
   - { vserver: SVM_NFS , dns_domains: demo.netapp.com, dns_nameservers: 192.168.0.253 }
 
 lifs:
-  - { name: nfs_data_lif1 , vserver: SVM_NFS , node: cluster1-01, port: e0d, protocol: nfs  , address: 192.168.0.143, netmask: 255.255.255.0 }
-  - { name: nfs_data_lif2 , vserver: SVM_NFS , node: cluster1-02, port: e0d, protocol: nfs  , address: 192.168.0.144, netmask: 255.255.255.0 }
+  - { name: nfs_data_lif1 , vserver: SVM_NFS , node: cluster1-01, port: e0d, protocol: nfs  , address: 192.168.0.144, netmask: 255.255.255.0 }
+  - { name: nfs_data_lif2 , vserver: SVM_NFS , node: cluster1-02, port: e0d, protocol: nfs  , address: 192.168.0.145, netmask: 255.255.255.0 }
   - { name: cifs_data_lif1, vserver: SVM_CIFS, node: cluster1-01, port: e0d, protocol: cifs , address: 192.168.0.146, netmask: 255.255.255.0 }
   - { name: cifs_data_lif2, vserver: SVM_CIFS, node: cluster1-02, port: e0d, protocol: cifs , address: 192.168.0.147, netmask: 255.255.255.0 }
   - { name: san_data_lif1 , vserver: SVM_SAN , node: cluster1-01, port: e0d, protocol: iscsi, address: 192.168.0.148, netmask: 255.255.255.0 }
@@ -49,7 +49,8 @@ cifs:
   - { vserver: SVM_CIFS, cifs_server_name: netapp1, domain: demo.netapp.com, force: true }
 
 nas:
-  - { name: CifsDataVolume, protocol: cifs, vserver: SVM_CIFS, share: smbdata, aggr: n1_aggr1, size: 10 }
+  - { name: CifsDataVolume, protocol: cifs, vserver: SVM_CIFS, share: smbdata      , aggr: n1_aggr1, size: 10 }
+  - { name: NfsDataVolume , protocol: nfs , vserver: SVM_NFS , share: NfsDataVolume, aggr: n1_aggr1, size: 10 }
 
 igroups:
   - { name: rhel1_igroup, vserver: SVM_SAN, group_type: iscsi, ostype: linux, initiator: "iqn.1994-05.com.redhat:rhel1.demo.netapp.com" }
