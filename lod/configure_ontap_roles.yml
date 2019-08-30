@@ -4,9 +4,9 @@
   gather_facts: no
   vars_prompt:
     - name: admin_user_name
-      prompt: Domain admin username (for CIFS configuration)
+      prompt: Domain Admin Username (used for CIFS configuration)
     - name: admin_password
-      prompt: domain admin password (for CIFS configuration)
+      prompt: Domain Admin Password (used for CIFS configuration)
   vars:
     input: &input
       hostname: "{{ netapp_hostname }}"
