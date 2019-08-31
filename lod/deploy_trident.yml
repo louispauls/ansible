@@ -4,7 +4,7 @@
   tasks:
   - name: Copy config.json file
     copy:
-      src: trident_config_file.json
+      src: _trident_config_file.json
       dest: /etc/netappdvp/config.json
       backup: yes
   - name: Install Trident on hosts
