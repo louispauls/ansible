@@ -9,6 +9,7 @@
       backup: yes
   - name: Install Trident on hosts
     shell: docker plugin install --grant-all-permissions --alias netapp netapp/trident-plugin:latest
+    ignore_errors: yes
 
 - hosts: rhel1
   name: Play [Create persistent volume using Trident, httpd web container, and Snapshot on NetApp volume]
@@ -38,7 +39,8 @@
   - name: Custom web server content
     shell: docker cp ~/ansible/lod/htdocs/docker_logo.png myweb1:/usr/local/apache2/htdocs/docker_logo.png
   - name: Custom web server content
-    shell: docker cp ~/ansible/lod/htdocs/trident.png     myweb1:/usr/local/apachd2/htdocs/trident.png
+    shell: docker cp ~/ansible/lod/htdocs/trident.png     myweb1:/usr/local/apache2/htdocs/trident.png
+
   - name: Create the Snapshot backup1 on the NetApp volume
     na_ontap_snapshot:
       snapshot: backup1
