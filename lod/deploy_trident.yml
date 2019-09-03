@@ -2,7 +2,7 @@
 - hosts: prod
   name: Play [Deploy Trident on Docker hosts rhel1 and rhel2]
   tasks:
-  - name: Copy config.json file
+  - name: Copy config.json file to both rhel1 and rhel2
     copy:
       src: _trident_config_file.json
       dest: /etc/netappdvp/config.json
@@ -14,8 +14,8 @@
 - hosts: rhel1
   name: Play [Create Docker Persistent Volume pvol1]
   tasks:
-  - name: 
-      docker_volume:
+  - name: Creating pvol1
+    docker_volume:
       driver: "netapp"
       name: "pvol1"
       driver_options:
@@ -24,7 +24,7 @@
 - hosts: prod
   name: Play [Create the Apache Container myweb1 on rhel1 and rhel2 using the Persistent Volume pvol1 for its data repository]
   tasks:
-  - name: 
+  - name: Creating Apache Container
     docker_container:
       name: myweb1
       image: httpd
@@ -37,7 +37,7 @@
   name: Play [Finalize the Web Server myweb1 and Create a backup of the Web Server Data]
   tasks:
   - name: Customize the Web Server content
-      shell: docker cp ~/ansible/lod/htdocs/ myweb1:/usr/local/apache2/
+    shell: docker cp ~/ansible/lod/htdocs/ myweb1:/usr/local/apache2/
   - name: Create the Snapshot backup1 on the NetApp volume
     na_ontap_snapshot:
       snapshot: backup1
