@@ -24,6 +24,8 @@
     with_items:
       - { name: "n1_aggr1", node: "cluster1-01" }
       - { name: "n2_aggr1", node: "cluster1-02" }
+  - pause:
+      seconds: 5
 
 #   Create a SVM
   - name: Create a SVM (na_ontap_svm)
