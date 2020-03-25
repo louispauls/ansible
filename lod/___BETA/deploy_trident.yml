@@ -19,24 +19,32 @@
     ignore_errors: yes
 
 #   Create Persistent Volume
-  - name: Creating Persistent Volume pvol1
-    docker_volume:
-      driver: "netapp"
-      name: "pvol1"
-      driver_options:
-        size: "3g"
+#  - name: Creating Persistent Volume pvol1
+#    docker_volume:
+#      driver: "netapp"
+#      name: "pvol1"
+#      driver_options:
+#        size: "3g"
+#    run_once: true
+#    delegate_to: rhel1
+  - name: Creating Persistent Volume pvol1 
+    shell: docker volume create -d netapp --name pvol1 --opt size=3G 
+    ignore_errors: yes
     run_once: true
     delegate_to: rhel1
 
-#   Create Apache Container
+   Create Apache Container
   - name: Create the Apache Container myweb1 on rhel1 and rhel2 using the Persistent Volume pvol1 for its data repository
-    docker_container:
-      name: myweb1
-      image: httpd
-      ports:
-        - "80:80"
-      volumes:
-        - "pvol1:/usr/local/apache2/htdocs"
+#    docker_container:
+#      name: myweb1
+#      image: httpd
+#      ports:
+#        - "80:80"
+#      volumes:
+#        - "pvol1:/usr/local/apache2/htdocs"
+    shell: docker container run --detach --publish 80:80 --name myweb1 --volume pvol1:/usr/local/apache2/htdocs httpd 
+    ignore_errors: yes
+
 
 #   Customize the Web Server
   - name: Customize the Web Server content
