@@ -33,7 +33,7 @@
     run_once: true
     delegate_to: rhel1
 
-   Create Apache Container
+#   Create Apache Container
   - name: Create the Apache Container myweb1 on rhel1 and rhel2 using the Persistent Volume pvol1 for its data repository
 #    docker_container:
 #      name: myweb1
@@ -48,7 +48,7 @@
 
 #   Customize the Web Server
   - name: Customize the Web Server content
-    shell: docker cp ~/ansible/lod/htdocs/ myweb1:/usr/local/apache2/
+    shell: docker cp ~/workspace/htdocs/ myweb1:/usr/local/apache2/
     run_once: true
     delegate_to: rhel1
 
