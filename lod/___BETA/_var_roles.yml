@@ -1,0 +1,58 @@
+﻿cluster: cluster1
+
+netapp_hostname: 192.168.0.101
+netapp_username: admin
+netapp_password: Netapp1!
+
+#license_codes: XXX
+
+disks:
+  - cluster1-01
+  - cluster1-02
+
+#motd: "This cluster was configured using Ansible"
+
+dns:
+  - { dns_domains: demo.netapp.com, dns_nameservers: 192.168.0.253 }
+
+ntp:
+  - { server_name: dc1.demo.netapp.com, version: auto }
+
+snmp:
+  - { community_name: public, access_control: ro }
+
+aggrs:
+  - { name: n1_aggr1, node: cluster1-01, disk_count: 13, max_raid: 13 }
+  - { name: n2_aggr1, node: cluster1-02, disk_count: 13, max_raid: 13 }
+
+ports:
+  - { node: cluster1-01, port: }
+
+vservers:
+  - { name: SVM_NFS , aggr: n1_aggr1, protocol: nfs   }
+  - { name: SVM_CIFS, aggr: n1_aggr1, protocol: cifs  }
+  - { name: SVM_SAN , aggr: n2_aggr1, protocol: iscsi }
+
+vserver_dns:
+  - { vserver: SVM_CIFS, dns_domains: demo.netapp.com, dns_nameservers: 192.168.0.253 }
+  - { vserver: SVM_NFS , dns_domains: demo.netapp.com, dns_nameservers: 192.168.0.253 }
+
+lifs:
+  - { name: nfs_data_lif1 , vserver: SVM_NFS , node: cluster1-01, port: e0d, protocol: nfs  , address: 192.168.0.144, netmask: 255.255.255.0 }
+  - { name: nfs_data_lif2 , vserver: SVM_NFS , node: cluster1-02, port: e0d, protocol: nfs  , address: 192.168.0.145, netmask: 255.255.255.0 }
+  - { name: cifs_data_lif1, vserver: SVM_CIFS, node: cluster1-01, port: e0d, protocol: cifs , address: 192.168.0.146, netmask: 255.255.255.0 }
+  - { name: cifs_data_lif2, vserver: SVM_CIFS, node: cluster1-02, port: e0d, protocol: cifs , address: 192.168.0.147, netmask: 255.255.255.0 }
+  - { name: san_data_lif1 , vserver: SVM_SAN , node: cluster1-01, port: e0d, protocol: iscsi, address: 192.168.0.148, netmask: 255.255.255.0 }
+  - { name: san_data_lif2 , vserver: SVM_SAN , node: cluster1-02, port: e0d, protocol: iscsi, address: 192.168.0.149, netmask: 255.255.255.0 }
+
+cifs:
+  - { vserver: SVM_CIFS, cifs_server_name: netapp1, domain: demo.netapp.com, force: true }
+
+nas:
+  - { name: CifsDataVolume, protocol: cifs, vserver: SVM_CIFS, share: smbdata      , aggr: n1_aggr1, size: 10 }
+
+igroups:
+  - { name: rhel1_igroup, vserver: SVM_SAN, group_type: iscsi, ostype: linux, initiator: "iqn.1994-05.com.redhat:rhel1.demo.netapp.com" }
+
+luns:
+ - { name: lun1, vol_name: SanDataVolume, vserver: SVM_SAN, size: 10, aggr: n2_aggr1, ostype: linux, space_reserve: false, igroup: rhel1_igroup }
