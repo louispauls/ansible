@@ -2,6 +2,8 @@
 
 ##[PLAY] Configure ONTAP Cluster
 - hosts: localhost
+  collections:
+    - netapp.ontap
   gather_facts: no
   vars_prompt:
     - name: admin_user_name
