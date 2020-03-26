@@ -2,6 +2,9 @@
 
 ##[PLAY] Configure ONTAP Cluster
 - hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: no
   name: Play [Configure ONTAP Cluster]
   vars_files:
   - _var_playbook.yml
