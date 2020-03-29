@@ -22,13 +22,18 @@
   tasks:
 
 #   Gather facts about the ONTAP cluster
-  - name: Get ONTAP version
-    na_ontap_gather_facts:
+  - name: Get NetApp Info
+    na_ontap_info:
       state: info
       <<: *input
-      https: true
-      validate_certs: false
-      ontapi: 32
+      https: yes
+      validate_certs: no
+#      ontapi: 32
+#    register: ontap_info
+    register: netapp
+#  - debug:
+#      msg: "{{ ontap_info.ontap_info }}"
+#      msg: "{{ netapp.netapp }}"
 
 #   Configure Cluster
   - import_role:
