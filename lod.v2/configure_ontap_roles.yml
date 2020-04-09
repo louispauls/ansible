@@ -1,0 +1,85 @@
+﻿---
+
+##[PLAY] Configure ONTAP Cluster
+- hosts: localhost
+  collections:
+    - netapp.ontap
+  gather_facts: no
+  vars_prompt:
+    - name: admin_user_name
+      prompt: Domain Admin Username (used for CIFS configuration)
+    - name: admin_password
+      prompt: Domain Admin Password (used for CIFS configuration)
+  vars:
+    input: &input
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username }}"
+      password: "{{ netapp_password }}"
+    file: _var_roles.yml
+  vars_files:
+  - "{{ file }}"
+
+  tasks:
+
+#   Gather facts about the ONTAP cluster
+  - name: Get NetApp Info
+    na_ontap_info:
+      state: info
+      <<: *input
+      https: yes
+      validate_certs: no
+#      ontapi: 32
+#    register: ontap_info
+    register: netapp
+#  - debug:
+#      msg: "{{ ontap_info.ontap_info }}"
+#      msg: "{{ netapp.netapp }}"
+
+#   Configure Cluster
+  - import_role:
+      name: na_ontap_cluster_config
+    vars:
+      <<: *input
+
+#   Create SVMs
+  - import_role:
+      name: na_ontap_vserver_create
+    vars:
+      <<: *input
+    when: vservers != None
+
+#   Create NAS volumes
+  - import_role:
+      name: na_ontap_nas_create
+    vars:
+      <<: *input
+    when: nas != None
+
+#   Create SAN volumes and LUNs
+  - import_role:
+      name: na_ontap_san_create
+    vars:
+      <<: *input
+    when: luns != None
+
+##[PLAY] Mount NFS export to hosts in /etc/ansible/hosts
+- hosts: prod
+  name: Play [Configure nfs on Linux Instances and Mount the nfs export]
+  vars_files:
+  - _var_playbook.yml
+  tasks:
+
+#   Install NFS on Linux Instances
+  - name: Install nfs on all systems in /etc/ansible/hosts
+    package:
+      name: nfs-utils
+      state: present
+
+#   Mount ONTAP NFS export on all Linux Instances
+  - name: Mount nfs export on all systems in /etc/ansible/hosts
+    mount:
+      state: mounted
+      path: /mnt/tmp
+      src: "{{ data_lif2 }}:/{{ volname}}"
+      fstype: nfs
+      
